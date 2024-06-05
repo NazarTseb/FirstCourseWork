@@ -1,32 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Google.Apis.Auth.OAuth2;
+﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Youtube_API
 {
     public class YouTubeServiceHelper
     {
-        private static readonly string _apiKey = "AIzaSyB4VLmONL1QDdeOwwkBlyrVa-XLnihgniw";
-        private static readonly string _clientSecretsJson = @"
-{
-  installed: {
-    client_id: ""439647084462-fcv02mkbrga52bsjjt7tbhbqf4c5v2tf.apps.googleusercontent.com"",
-    ""project_id"": ""my-youtube-api-project-422006"",
-    ""auth_uri"": ""https://accounts.google.com/o/oauth2/auth"",
-    ""token_uri"": ""https://oauth2.googleapis.com/token"",
-    ""auth_provider_x509_cert_url"": ""https://www.googleapis.com/oauth2/v1/certs"",
-    ""client_secret"": ""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"",
-    ""redirect_uris"": [""urn:ietf:wg:oauth:2.0:oob"",""http://localhost""]
-  }
-}";
+        private static readonly string _apiKey = Environment.GetEnvironmentVariable("YOUTUBE_API_KEY");
+
+        private static readonly string _clientSecretsJson = $@"
+        {{
+            ""installed"": {{
+                ""client_id"": ""{Environment.GetEnvironmentVariable("439647084462-fcv02mkbrga52bsjjt7tbhbqf4c5v2tf.apps.googleusercontent.com")}"",
+                ""project_id"": ""my-youtube-api-project-422006"",
+                ""auth_uri"": ""https://accounts.google.com/o/oauth2/auth"",
+                ""token_uri"": ""https://oauth2.googleapis.com/token"",
+                ""auth_provider_x509_cert_url"": ""https://www.googleapis.com/oauth2/v1/certs"",
+                ""client_secret"": ""{Environment.GetEnvironmentVariable("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")}"",
+                ""redirect_uris"": [""urn:ietf:wg:oauth:2.0:oob"", ""http://localhost""]
+            }}
+        }}";
         private static UserCredential _credential;
 
         static YouTubeServiceHelper()
